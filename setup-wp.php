@@ -1,6 +1,7 @@
 <?php
 
 require 'vendor/autoload.php'; 
+$user = require 'auth.php';
 
 /**
  * TODO Process
@@ -45,9 +46,26 @@ require 'vendor/autoload.php';
  */
 
 /*
- * TODO Checkout
+ * TODO API's
  * 
  * Bitbucket API - https://gentlero.bitbucket.io/bitbucket-api/0.8/examples/
  * git API - https://github.com/kbjr/Git.php
  *
  */
+
+function bitbucketAPI(string $endpoint) {
+    $client = new \GuzzleHttp\Client;
+
+    return $client->request(
+        'GET',
+        "https://api.bitbucket.org/2.0/$endpoint",
+        [
+            'auth' => [$user['username'], $user['password']]
+        ]
+    );
+}
+
+function bitbucketAPIContent($response) {
+    return $response->getBody()->getContents();
+}
+
