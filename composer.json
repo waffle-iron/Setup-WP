@@ -1,5 +1,5 @@
 {
     "require": {
-        "gentle/bitbucket-api": "^0.8.2"
+        "guzzlehttp/guzzle": "^6.2"
     }
 }
