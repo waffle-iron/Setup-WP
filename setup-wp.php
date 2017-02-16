@@ -53,19 +53,36 @@ $user = require 'auth.php';
  *
  */
 
-function bitbucketAPI(string $endpoint) {
-    $client = new \GuzzleHttp\Client;
+function bitbucketAPI (string $endpoint) {
+    global $user;
 
-    return $client->request(
-        'GET',
-        "https://api.bitbucket.org/2.0/$endpoint",
+    $client = new \GuzzleHttp\Client(
         [
-            'auth' => [$user['username'], $user['password']]
+            'base_uri' => 'https://api.bitbucket.org/2.0/',
         ]
     );
+
+    try {
+
+        $client->request('GET', $endpoint,
+            [
+                'auth' => [
+                    $user['username'], $user['password']
+                ]
+            ]
+        );
+
+    } catch(\GuzzleHttp\Exception\RequestException $e) {
+        $json = json_decode(bitbucketAPIContents($e->getResponse()), true);
+
+        echo $json['error']['message'];
+
+        return false;
+    }
 }
 
-function bitbucketAPIContent($response) {
+function bitbucketAPIContents ($response) {
     return $response->getBody()->getContents();
 }
 
+bitbucketApi('repositories/BarefaceMedia/lw-34');
