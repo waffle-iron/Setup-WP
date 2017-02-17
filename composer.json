@@ -1,4 +1,9 @@
 {
+    "autoload": {
+        "psr-4": {
+            "Torlax\\": "src/"
+        }
+    },
     "require": {
         "guzzlehttp/guzzle": "^6.2"
     }

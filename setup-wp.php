@@ -53,47 +53,4 @@ $user = require 'auth.php';
  *
  */
 
-function bitbucketAPI (string $endpoint) {
-    global $user;
-
-    $client = new \GuzzleHttp\Client(
-        [
-            'base_uri' => 'https://api.bitbucket.org/2.0/',
-        ]
-    );
-
-    try {
-
-        $response = $client->request('GET', $endpoint,
-            [
-                'auth' => [
-                    $user['username'], $user['password']
-                ]
-            ]
-        );
-
-    } catch(\GuzzleHttp\Exception\RequestException $e) {
-        $json = json_decode(bitbucketAPIContents($e->getResponse()), true);
-
-        echo $json['error']['message'];
-
-        return false;
-    }
-
-    return $response;
-}
-
-function bitbucketAPIContents ($response) {
-    if ($response === false) {
-        $response;
-    }
-
-    $responseArray = json_decode($response->getBody()->getContents());
-    $json = json_encode($responseArray, JSON_PRETTY_PRINT);
-
-    file_put_contents('test.txt', $json);
-}
-
-bitbucketAPIContents(
-    bitbucketApi('repositories/BarefaceMedia/sjdfjkd')
-);
+$bitbucket = new \Torlax\BitbucketApi($user['username'], $user['password']);
