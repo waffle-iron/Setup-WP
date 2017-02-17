@@ -64,7 +64,7 @@ function bitbucketAPI (string $endpoint) {
 
     try {
 
-        $client->request('GET', $endpoint,
+        $response = $client->request('GET', $endpoint,
             [
                 'auth' => [
                     $user['username'], $user['password']
@@ -79,10 +79,21 @@ function bitbucketAPI (string $endpoint) {
 
         return false;
     }
+
+    return $response;
 }
 
 function bitbucketAPIContents ($response) {
-    return $response->getBody()->getContents();
+    if ($response === false) {
+        $response;
+    }
+
+    $responseArray = json_decode($response->getBody()->getContents());
+    $json = json_encode($responseArray, JSON_PRETTY_PRINT);
+
+    file_put_contents('test.txt', $json);
 }
 
-bitbucketApi('repositories/BarefaceMedia/lw-34');
+bitbucketAPIContents(
+    bitbucketApi('repositories/BarefaceMedia/sjdfjkd')
+);
