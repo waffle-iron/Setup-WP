@@ -59,11 +59,3 @@ $user = require 'auth.php';
 $bitbucket = new \Torlax\Client\Bitbucket\BitbucketClient($user['username'], $user['password']);
 $repositories = $bitbucket->repositories();
 
-$repositories->create(
-    [
-        'scm'         => 'git',
-        'description' => 'testing the client',
-        'language'    => 'php',
-        'is_private'  => true,
-    ]
-);

@@ -14,6 +14,11 @@ class ClientRequest
         return $this->request('POST', $url, $options);
     }
 
+    public function delete($url, $options = null)
+    {
+        return $this->request('DELETE', $url, $options);
+    }
+
     protected function request($method, $url, $options)
     {
         if (!$options) {
