@@ -53,9 +53,4 @@ $user = require 'auth.php';
  *
  */
 
-//$bitbucket = new \Torlax\BitbucketApi($user['username'], $user['password']);
-//file_put_contents('test.txt', $bitbucket->repository('BarefaceMedia', 'fm-104'));
-
-$bitbucket = new \Torlax\Client\Bitbucket\BitbucketClient($user['username'], $user['password']);
-$repositories = $bitbucket->repositories();
 
