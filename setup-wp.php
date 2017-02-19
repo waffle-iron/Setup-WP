@@ -4,6 +4,7 @@ require 'vendor/autoload.php';
 $user = require 'auth.php';
 
 use GitWrapper\GitWrapper;
+use Torlax\Utilities;
 
 /**
  * TODO Process
@@ -88,3 +89,6 @@ $config = [
  *
  */
 
+$wordpressClient = new Torlax\Client\WordPress;
+$wordpress = $wordpressClient->downloadLatest();
+Utilities::unzipFile($wordpress->getZipFile(), 'test-repo', 'wordpress');
