@@ -1,7 +1,9 @@
 <?php
 
-require 'vendor/autoload.php'; 
+require 'vendor/autoload.php';
 $user = require 'auth.php';
+
+use GitWrapper\GitWrapper;
 
 /**
  * TODO Process
@@ -24,10 +26,10 @@ $user = require 'auth.php';
  *  repo_slug
  *  wordpress:
  *    setup: true/false
- *    plugins: 
- *      - 
- *        - 
- *          url: Specify only if not on Wordpress website. 
+ *    plugins:
+ *      -
+ *        -
+ *          url: Specify only if not on Wordpress website.
  *          name: To rename the folder.
  *          username: If HTTP request requires credentials.
  *          password: If HTTP request requires credentials.
@@ -45,12 +47,44 @@ $user = require 'auth.php';
  *    search_replace: URL to replace with config.site_url
  */
 
+// TODO Move to it's own config
+$config = [
+    'account_name' => 'JayyWalker',
+    'repo_slug'    => 'testing-api',
+    'directory'    => 'test-repo',
+    'wordpress'    => [
+        'initialize' => true,
+        'plugins'    => [
+            [
+                'url'      => '',
+                'name'     => '',
+                'username' => '',
+                'password' => '',
+            ],
+        ],
+
+        'theme' => [
+            'url' => ''
+        ],
+
+        'config' => [
+            'site_url' => '',
+            'home_url' => '',
+            'db_name' => '',
+            'db_username' => '',
+            'db_password' => '',
+            'db_host' => '',
+            'db_prefix' => '',
+        ],
+        'search_replace' => '',
+    ],
+];
+
 /*
  * TODO API's
- * 
+ *
  * Bitbucket API - https://gentlero.bitbucket.io/bitbucket-api/0.8/examples/
  * git API - https://github.com/kbjr/Git.php
  *
  */
-
 
