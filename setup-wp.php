@@ -69,13 +69,12 @@ $config = [
         ],
 
         'config' => [
-            'site_url' => '',
-            'home_url' => '',
-            'db_name' => '',
-            'db_username' => '',
-            'db_password' => '',
-            'db_host' => '',
-            'db_prefix' => '',
+            'site_url' => 'http://testing.api',
+            'db_name' => 'wordpress',
+            'db_username' => 'username',
+            'db_password' => 'username',
+            'db_host' => 'localhost',
+            'db_prefix' => 'test_',
         ],
         'search_replace' => '',
     ],
@@ -89,6 +88,21 @@ $config = [
  *
  */
 
-$wordpressClient = new Torlax\Client\WordPress;
-$wordpress = $wordpressClient->downloadLatest();
-Utilities::unzipFile($wordpress->getZipFile(), 'test-repo', 'wordpress');
+//$wordpressClient = new Torlax\Client\WordPress;
+//$wordpress = $wordpressClient->downloadLatest();
+//Utilities::unzipFile($wordpress->getZipFile(), 'test-repo', 'wordpress');
+
+$configFile = file_get_contents('test-repo/wp-config-sample.php');
+
+$wpConfig = $config['wordpress']['config'];
+$configFile = str_replace('database_name_here', $wpConfig['db_name'], $configFile);
+$configFile = str_replace('username_here', $wpConfig['db_username'], $configFile);
+$configFile = str_replace('password_here', $wpConfig['db_password'], $configFile);
+$configFile = str_replace('localhost', $wpConfig['db_host'], $configFile);
+$configFile = str_ireplace('wp_', $wpConfig['db_prefix'], $configFile);
+
+$siteUrl = $wpConfig['site_url'];
+$configFile .= "\n\ndefine('WP_SITEURL', '$siteUrl');\ndefine('WP_HOME', WP_SITEURL);";
+$configFile = str_ireplace("\x0D", "", $configFile);
+
+file_put_contents('test-repo/wp-config.php', $configFile);
